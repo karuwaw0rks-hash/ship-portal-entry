@@ -16,6 +16,8 @@
     h1 { margin: 12px 0 0; font-size: 26px; }
     p { margin: 0 0 24px; color: #4e6b60; }
     a { display: block; padding: 12px; border-radius: 12px; background: #23453d; color: #fff; font-weight: 700; text-decoration: none; }
+    #prepare-shortcut { margin-top: 14px; padding: 8px; border: 0; background: none; color: #23453d; font: inherit; text-decoration: underline; cursor: pointer; }
+    #shortcut-status { margin: 8px 0 0; font-size: 14px; }
     a:focus-visible { outline: 3px solid #277d64; outline-offset: 4px; }
   </style>
 </head>
@@ -25,12 +27,27 @@
     <h1>SHIP PORTAL</h1>
     <p>友セカンド</p>
     <a id="portal-link" href="https://script.google.com/macros/s/AKfycby-MujcGiE9Y2-p5FrduMT8InxJHfu9TAFivwbgvpzTeUeTYJbRlrdl21ynh6Xet0M/exec">ポータルを開く</a>
+    <button id="prepare-shortcut" type="button">自動で開くアイコンを追加する準備</button>
+    <p id="shortcut-status" role="status" hidden></p>
   </main>
   <script>
-    const launchedFromHome = window.navigator.standalone === true ||
-      window.matchMedia('(display-mode: standalone)').matches;
-    if (launchedFromHome) {
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('launch') === '1') {
       window.location.replace(document.getElementById('portal-link').href);
+    } else {
+      const prepare = document.getElementById('prepare-shortcut');
+      const status = document.getElementById('shortcut-status');
+      prepare.addEventListener('click', () => {
+        url.searchParams.set('launch', '1');
+        try {
+          window.history.replaceState(null, '', url.href);
+          prepare.hidden = true;
+          status.textContent = 'この画面のまま、共有 → ホーム画面に追加を押してください。';
+        } catch (_) {
+          status.textContent = '追加の準備ができませんでした。Safariで入口を開いてお試しください。';
+        }
+        status.hidden = false;
+      });
     }
   </script>
 </body>
