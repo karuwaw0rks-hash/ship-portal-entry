@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#23453d">
   <title>SHIP PORTAL</title>
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
@@ -23,7 +24,14 @@
     <img src="./apple-touch-icon.png" width="80" height="80" alt="">
     <h1>SHIP PORTAL</h1>
     <p>友セカンド</p>
-    <a href="https://script.google.com/macros/s/AKfycby-MujcGiE9Y2-p5FrduMT8InxJHfu9TAFivwbgvpzTeUeTYJbRlrdl21ynh6Xet0M/exec">ポータルを開く</a>
+    <a id="portal-link" href="https://script.google.com/macros/s/AKfycby-MujcGiE9Y2-p5FrduMT8InxJHfu9TAFivwbgvpzTeUeTYJbRlrdl21ynh6Xet0M/exec">ポータルを開く</a>
   </main>
+  <script>
+    const launchedFromHome = window.navigator.standalone === true ||
+      window.matchMedia('(display-mode: standalone)').matches;
+    if (launchedFromHome) {
+      window.location.replace(document.getElementById('portal-link').href);
+    }
+  </script>
 </body>
 </html>
